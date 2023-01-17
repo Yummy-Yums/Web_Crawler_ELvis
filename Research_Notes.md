@@ -14,3 +14,4 @@
 # Things I need to work on
 * Some websites take time to finish, need to add threading and optimization
 * Add comments to the functions
+* Setup Unit tests
