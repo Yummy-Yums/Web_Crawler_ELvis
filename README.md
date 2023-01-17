@@ -22,5 +22,3 @@ web page to retrieved url’s embedded within.
   * Concurrency
   * Sufficient unit tests
   * Presenting the results
-
-# Message Nat at the end of the day
