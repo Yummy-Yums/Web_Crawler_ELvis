@@ -17,3 +17,4 @@
 * Make sure the threading and optimization are efficient
 * Write actual unit tests
 * Rename variable to more suitable name
+* Is it possible to get the data even thought there is a connection disrupt?

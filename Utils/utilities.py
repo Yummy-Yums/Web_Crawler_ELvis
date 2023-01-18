@@ -17,26 +17,26 @@ def create_file(data):
 def create_folder_for_file(data):
     """ Generate a file with all the links gathered """
     base_path = os.path.dirname(__file__)
-    remove_file = os.path.abspath(os.path.join(base_path, '..', 'extracted_file'))
-    if os.path.exists(remove_file):
-        os.remove(remove_file)
+    new_file = os.path.abspath(os.path.join(base_path, '..', 'extracted_file'))
+    if os.path.exists(new_file):
+        os.remove(new_file)
         return create_file(data)
     return create_file(data)
 
 
-def add_them(d, fl):
-    for k, v in d.items():
-        fl.add(k)
-        if len(v):
-            for item in v:
-                fl.add(item)
-    return fl
+def combine_dictionary_keys_and_values(dictionary_links, all_links):
+    for key, value in dictionary_links.items():
+        all_links.add(key)
+        if len(value):
+            for link in value:
+                all_links.add(link)
+    return all_links
 
 
 def extract_all_web_links(dictionary_of_links: dict):
     """ Gathers a dictionary of links into a set """
     final_list_of_links = set()
-    thread1 = ThreadPool(1).apply_async(add_them, (dictionary_of_links, final_list_of_links,))
+    thread1 = ThreadPool(1).apply_async(combine_dictionary_keys_and_values, (dictionary_of_links, final_list_of_links,))
     result = thread1.get()
     thread2 = ThreadPool(2).apply_async(create_folder_for_file, (set(result),))
     thread2.get()
@@ -60,9 +60,17 @@ def add_to_queue(children, queue):
         queue.append(child)
 
 
+# relation_dict = {'related': "'x['href']" and "x['href'].startswith('/')'",
+#                  'non_related': "x['href']" and not "x['href'].startswith('/')" and "x['href'].startswith('http')"}
+#
+#
+# def get_pages(parsed_html, option):
+#     return set(map(lambda x: x['href'], filter(lambda x: f"{relation_dict[option]}", parsed_html)))
+
+
 # TODO: Refactor get_related_pages and get_non_related_pages to be one
 def get_related_pages(pages):
-    # condition = x['href'] and x['href'].startswith('/')
+    # condition = "x['href']" and "x['href'].startswith('/')"
     return set(map(lambda x: x['href'],
                    filter(lambda x: x['href'] and x['href'].startswith('/'),
                           pages)))
