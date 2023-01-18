@@ -1,4 +1,5 @@
 import os.path
+from http.client import RemoteDisconnected
 from multiprocessing.pool import ThreadPool
 from urllib.error import HTTPError
 from urllib.request import urlopen
@@ -37,27 +38,22 @@ def extract_all_web_links(dictionary_of_links: dict):
     """ Gathers a dictionary of links into a set """
     final_list_of_links = set()
     thread1 = ThreadPool(1).apply_async(combine_dictionary_keys_and_values, (dictionary_of_links, final_list_of_links,))
-    result = thread1.get()
-    thread2 = ThreadPool(2).apply_async(create_folder_for_file, (set(result),))
-    thread2.get()
+    return set(thread1.get())
 
 
 def decode_webpage(url: str):
     """ Decodes a webpage to be crawled """
     try:
-        if urlopen(url).read():
-            return urlopen(url).read().decode("utf-8")
-    except UnicodeDecodeError:
-        return f"Can't decode {url}"
-    except MarkupResemblesLocatorWarning:
-        return f"No external links found"
-    except HTTPError as err:
+        return urlopen(url)
+    except (
+    UnicodeDecodeError, HTTPError, MarkupResemblesLocatorWarning, RemoteDisconnected, RemoteDisconnected) as err:
         return err
 
 
-def add_to_queue(children, queue):
+def add_to_visited_links(children, queue):
     for child in children:
         queue.append(child)
+    return queue
 
 
 # relation_dict = {'related': "'x['href']" and "x['href'].startswith('/')'",
@@ -69,15 +65,12 @@ def add_to_queue(children, queue):
 
 
 # TODO: Refactor get_related_pages and get_non_related_pages to be one
-def get_related_pages(pages):
+def get_related_pages(url):
     # condition = "x['href']" and "x['href'].startswith('/')"
-    return set(map(lambda x: x['href'],
-                   filter(lambda x: x['href'] and x['href'].startswith('/'),
-                          pages)))
+    return set(map(lambda x: x['href'], filter(lambda x: x['href'] and x['href'].startswith('/'), url)))
 
 
-def get_non_related_pages(pages):
+def get_non_related_pages(url):
     # condition =
     return set(map(lambda x: x['href'],
-                   filter(lambda x: x['href'] and not x['href'].startswith('/') and x['href'].startswith('http'),
-                          pages)))
+                   filter(lambda x: x['href'] and not x['href'].startswith('/') and x['href'].startswith('http'), url)))

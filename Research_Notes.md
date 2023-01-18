@@ -8,6 +8,7 @@
 * Write the output to a file
 * Setup Unit tests
 * Added threading to some parts of the application
+* Write unit tests for utils
 
 # Aim
 * Look at the things I need to work on
@@ -15,6 +16,6 @@
 
 # Things I need to work on
 * Make sure the threading and optimization are efficient
-* Write actual unit tests
-* Rename variable to more suitable name
+* Write unit tests for Crawler class
+* Check error hanndling again
 * Is it possible to get the data even thought there is a connection disrupt?

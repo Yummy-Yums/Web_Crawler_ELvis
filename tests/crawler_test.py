@@ -2,10 +2,6 @@ import unittest
 
 
 class TestCrawler:
-    def test_one(self):
-        x = "this"
-        assert "h" in x
-
     def test_update_non_related_weblinks(self):
         assert 'U' in 'Update non related weblinks'
 
