@@ -1,13 +1,14 @@
-import json
+import time
 
 from crawler.Crawler import Crawler
 
 url_1 = 'https://turntabl.io'
-url_2 = 'https://www.google.com/search?q=add+multithreading+to+web+scraping&oq=add+multithreading+to+web+scraping&aqs=chrome..69i57j33i160l2.10436j0j7&sourceid=chrome&ie=UTF-8'
-url_3 = 'https://www.pluralsight.com/guides/web-scraping-with-beautiful-soup'
-url_4 = 'https://finance.yahoo.com/'
+url_5 = 'http://www.baidu.com'
+url_6 = 'https://www.youtube.com'
+url_7 = 'https://community.hubspot.com'
 
 crawler = Crawler()
-# TODO: Write it to a file
-# crawler.get_all_links(url_1)
+start_time = time.time()
 crawler.get_all_links(url_1)
+duration = time.time() - start_time
+print(f"Finished in {duration} seconds")

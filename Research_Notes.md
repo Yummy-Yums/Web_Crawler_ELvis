@@ -6,12 +6,14 @@
 * Being able to gather all the links in a website
 * Use deque and stack to gather the links recursively, more like a DFS approach
 * Write the output to a file
+* Setup Unit tests
+* Added threading to some parts of the application
 
 # Aim
 * Look at the things I need to work on
 
 
 # Things I need to work on
-* Some websites take time to finish, need to add threading and optimization
-* Add comments to the functions
-* Setup Unit tests
+* Make sure the threading and optimization are efficient
+* Write actual unit tests
+* Rename variable to more suitable name
