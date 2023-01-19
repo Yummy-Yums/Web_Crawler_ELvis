@@ -12,7 +12,7 @@ def create_file(data):
     with open(path, 'w') as fb:
         for link in data:
             fb.write(link + '\n')
-    print('\n******** Done with extraction ******** ')
+    print('\n******** Done with extraction and file created! ******** ')
 
 
 def create_folder_for_file(data):
@@ -57,15 +57,6 @@ def add_to_visited_links(children, queue):
     return queue
 
 
-# relation_dict = {'related': "'x['href']" and "x['href'].startswith('/')'",
-#                  'non_related': "x['href']" and not "x['href'].startswith('/')" and "x['href'].startswith('http')"}
-#
-#
-# def get_pages(parsed_html, option):
-#     return set(map(lambda x: x['href'], filter(lambda x: f"{relation_dict[option]}", parsed_html)))
-
-
-# TODO: Refactor get_related_pages and get_non_related_pages to be one
 def get_pages(url, option):
     my_result = None
     match option:
