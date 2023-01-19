@@ -46,7 +46,8 @@ def decode_webpage(url: str):
     try:
         return urlopen(url)
     except (
-    UnicodeDecodeError, HTTPError, MarkupResemblesLocatorWarning, RemoteDisconnected, RemoteDisconnected) as err:
+            UnicodeDecodeError, HTTPError, MarkupResemblesLocatorWarning, RemoteDisconnected,
+            RemoteDisconnected) as err:
         return err
 
 
@@ -65,12 +66,13 @@ def add_to_visited_links(children, queue):
 
 
 # TODO: Refactor get_related_pages and get_non_related_pages to be one
-def get_related_pages(url):
-    # condition = "x['href']" and "x['href'].startswith('/')"
-    return set(map(lambda x: x['href'], filter(lambda x: x['href'] and x['href'].startswith('/'), url)))
-
-
-def get_non_related_pages(url):
-    # condition =
-    return set(map(lambda x: x['href'],
-                   filter(lambda x: x['href'] and not x['href'].startswith('/') and x['href'].startswith('http'), url)))
+def get_pages(url, option):
+    my_result = None
+    match option:
+        case 'related':
+            my_result = filter(lambda x: x['href'] and x['href'].startswith('/'), url)
+        case 'non_related':
+            my_result = filter(lambda x: x['href']
+                                         and not x['href'].startswith('/')
+                                         and x['href'].startswith('http'), url)
+    return set(map(lambda x: x['href'], my_result))

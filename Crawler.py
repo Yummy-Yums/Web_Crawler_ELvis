@@ -28,8 +28,8 @@ class Crawler:
         response = decode_webpage(input_url).read().decode("utf-8")
         soup = BeautifulSoup(response, 'html.parser')
 
-        thread1 = ThreadPool(1).apply_async(get_related_pages, (soup.find_all('a', href=True),))
-        thread2 = ThreadPool(1).apply_async(get_non_related_pages, (soup.find_all('a', href=True),))
+        thread1 = ThreadPool(1).apply_async(get_pages, (soup.find_all('a', href=True), 'related',))
+        thread2 = ThreadPool(1).apply_async(get_pages, (soup.find_all('a', href=True), 'non_related',))
         related_links = thread1.get()
         non_related_links = thread2.get()
 
@@ -37,7 +37,7 @@ class Crawler:
             executor.submit(self.add_non_related_weblinks, non_related_links)
 
         with ThreadPoolExecutor(1) as executor:
-            executor.submit(get_related_pages, (soup.find_all('a', href=True),))
+            executor.submit(get_pages, (soup.find_all('a', href=True), 'related',))
 
         # For debugging purposes
         logging.log(msg=f'Active threads:{threading.activeCount()}', level=logging.WARN)

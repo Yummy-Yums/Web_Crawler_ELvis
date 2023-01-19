@@ -1,7 +1,6 @@
 import os
 from collections import deque
 
-
 import pytest
 from bs4 import BeautifulSoup
 
@@ -53,15 +52,15 @@ class TestUtils:
     def test_get_related_pages(self, important_value):
         all_pages = important_value.find_all('a', href=True)
         expected = {'/job', '/aims', '/', '/blog'}
-        assert expected == get_related_pages(all_pages)
-        assert 4 == len(get_related_pages(all_pages))
+        assert expected == get_pages(all_pages, 'related')
+        assert 4 == len(get_pages(all_pages, 'related'))
 
     def test_get_non_related_pages(self, important_value):
         all_pages = important_value.find_all('a', href=True)
         expected = {'https://twitter.com/turntablio', 'https://github.com/turntabl',
                     'https://www.google.co.uk/maps/place/turntabl/@5.6326822,-0.2382382,19z/data=!3m1!4b1!4m13!1m7!3m6!1s0xfdf996579ca9ebd:0x99822538ef7ed82f!2sAchimota,+Ghana!3b1!8m2!3d5.612781!4d-0.234345!3m4!1s0xfdf9954d603e5b3:0xd24eb41c04c54f63!8m2!3d5.6326809!4d-0.237691'}
-        assert expected == get_non_related_pages(all_pages)
-        assert 3 == len(get_non_related_pages(all_pages))
+        assert expected == get_pages(all_pages, 'non_related')
+        assert 3 == len(get_pages(all_pages, 'non_related'))
 
     def test_add_to_visited_links(self):
         my_queue = deque()
