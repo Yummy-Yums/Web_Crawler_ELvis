@@ -1,8 +1,6 @@
 import time
-from urllib.request import urlopen
 
-
-from Crawler.Crawler import Crawler
+from crawler.Crawler import Crawler
 
 url_1 = 'https://turntabl.io'
 # url_2 = 'https://jsonplaceholder.typicode.com/todo' #TODO: Error handling
@@ -14,10 +12,6 @@ url_5 = 'http://www.baidu.com'
 # url_10 = 'https://www.rottentomatoes.com'
 
 
-# resp = urlopen('https://www.example.com')
-# resp_1 = urlopen('https://jsonplaceholder.typicode.com/todo')
-# print(resp.getcode())
-# print(resp_1.getcode())
 crawler = Crawler()
 start_time = time.perf_counter()
 crawler.get_all_links(url_1)
