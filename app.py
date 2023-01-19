@@ -14,6 +14,6 @@ url_5 = 'http://www.baidu.com'
 
 crawler = Crawler()
 start_time = time.perf_counter()
-crawler.get_all_links(url_1)
+crawler.gather_links_into_file(url_1)
 duration = time.perf_counter() - start_time
 print(f"Finished in {duration} seconds")

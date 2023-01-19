@@ -8,10 +8,6 @@ from bs4 import BeautifulSoup
 from crawler.Utils.utilities import *
 
 
-# from crawler.Utils.utilities import decode_webpage, create_file, extract_all_web_links, \
-#     combine_dictionary_keys_and_values, get_related_pages, get_non_related_pages, add_to_visited_links
-
-
 class TestUtils:
 
     @pytest.fixture
