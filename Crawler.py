@@ -40,8 +40,8 @@ class Crawler:
             executor.submit(get_pages, (soup.find_all('a', href=True), 'related',))
 
         # For debugging purposes
-        logging.log(msg=f'Active threads:{threading.activeCount()}', level=logging.WARN)
-        logging.log(msg=f'Number of web_links:{len(self.weblinks) + 1}', level=logging.WARN)
+        # logging.log(msg=f'Active threads:{threading.activeCount()}', level=logging.WARN)
+        # logging.log(msg=f'Number of web_links:{len(self.weblinks) + 1}', level=logging.WARN)
 
         all_related_pages = map(lambda link: input_url + link if re.match('/+', link) else link, related_links)
         return set(filter(lambda x: x[:-1] != input_url, all_related_pages))

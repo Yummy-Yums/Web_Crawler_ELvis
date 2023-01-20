@@ -22,3 +22,7 @@ web page to retrieved url’s embedded within.
   * Concurrency
   * Sufficient unit tests
   * Presenting the results
+
+# How to run the app(Dev Mode)
+-----------------
+  * You can change the url in the app.py and run the app.py to start the program
