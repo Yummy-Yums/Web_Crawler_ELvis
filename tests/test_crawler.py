@@ -16,7 +16,7 @@ class TestCrawler:
     def test_update_non_related_weblinks(self, crawler):
         crawler, _ = crawler
         non_related_links = ['https://ghana.com', 'https://goal.com', 'https://image.net']
-        crawler.add_non_related_weblinks(non_related_links)
+        crawler.add_non_related_links_to_weblinks(non_related_links)
         expected = list(crawler.weblinks.values())
         keys_of_weblink = len(crawler.weblinks.keys())
         assert expected == [[], [], []]
@@ -31,7 +31,7 @@ class TestCrawler:
 
     def test_gather_all_links_under_domain(self, crawler):
         crawler, domain = crawler
-        required = crawler.gather_all_links_under_domain(domain)
+        required = crawler.gather_all_weblinks(domain)
         assert 3 == len(required)
         assert ('https://turntabl.io/blog' in required) == True
         assert ('https://turntabl.io/aims' in required) == True

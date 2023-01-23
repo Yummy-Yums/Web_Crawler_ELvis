@@ -5,23 +5,16 @@ from urllib.error import HTTPError
 from urllib.request import urlopen
 
 
-
-def create_file(data):
-    path = os.path.join(os.pardir, 'extracted_file')
+def create_file_for_storing_results(data):
+    """ Generate a file with all the links gathered """
+    base_path = os.path.dirname(__file__)
+    path = os.path.abspath(os.path.join(base_path, '..\..', 'extracted_file'))
+    if os.path.exists(path):
+        os.remove(path)
     with open(path, 'w') as fb:
         for link in data:
             fb.write(link + '\n')
-    print('\n******** Done with extraction and file created! ******** ')
-
-
-def create_folder_for_file(data):
-    """ Generate a file with all the links gathered """
-    base_path = os.path.dirname(__file__)
-    new_file = os.path.abspath(os.path.join(base_path, '..', 'extracted_file'))
-    if os.path.exists(new_file):
-        os.remove(new_file)
-        return create_file(data)
-    return create_file(data)
+        print('\n******** Done with extraction and file created! ******** ')
 
 
 def combine_dictionary_keys_and_values(dictionary_links, all_links):
