@@ -20,5 +20,7 @@ web page to retrieved url’s embedded within.
   * Sufficient unit tests
   * Presenting the results
 
-# How to run the app(Dev Mode)
-  * You can change the url in the app.py and run the app.py to start the program
+# How to run the app
+  * Kindly install necessary packages using: _pip install -r requirements_
+  * The app is executed via commandline: _python app.py -u url-name_
+  * For more information, you can use the command: _python -h_

@@ -1,8 +1,11 @@
 import os.path
+import urllib
+from functools import wraps
 from http.client import RemoteDisconnected
 from multiprocessing.pool import ThreadPool
 from urllib.error import HTTPError
 from urllib.request import urlopen
+from time import perf_counter
 
 
 def create_file_for_storing_results(data):
@@ -18,6 +21,7 @@ def create_file_for_storing_results(data):
 
 
 def combine_dictionary_keys_and_values(dictionary_links, all_links):
+    """ A function to combine the values and keys of a dictionary as a set """
     for key, value in dictionary_links.items():
         all_links.add(key)
         if len(value):
@@ -44,12 +48,14 @@ def decode_webpage(url: str):
 
 
 def add_to_visited_links(children, queue):
+    """ A function to add a value to an existing queue """
     for child in children:
         queue.append(child)
     return queue
 
 
 def get_pages(url, option):
+    """ A function to extract links on a webpage based on the option(either related oor non_related)  """
     my_result = None
     match option:
         case 'related':
@@ -59,3 +65,28 @@ def get_pages(url, option):
                                          and not x['href'].startswith('/')
                                          and x['href'].startswith('http'), url)
     return set(map(lambda x: x['href'], my_result))
+
+
+def timing(f):
+    """A decorator function that times the execution of the input-argument, which is also a function"""
+
+    @wraps(f)
+    def inner_function(*args, **kwargs):
+        start_time = perf_counter()
+        result = f(*args, **kwargs)
+        duration = perf_counter() - start_time
+        print(f"Finished in {duration:2.2f} seconds")
+        return result
+
+    return inner_function
+
+
+def validate_url(url: str):
+    """ A function to validate the url before processing and crawling the links """
+    try:
+        req = urllib.request.urlopen(url).getcode()
+        return req == 200
+    except HTTPError as e:
+        raise f"Error: {e.code}"
+
+
