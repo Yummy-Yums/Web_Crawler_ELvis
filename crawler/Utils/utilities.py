@@ -4,7 +4,6 @@ from multiprocessing.pool import ThreadPool
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
-from bs4 import MarkupResemblesLocatorWarning
 
 
 def create_file(data):
@@ -46,7 +45,7 @@ def decode_webpage(url: str):
     try:
         return urlopen(url)
     except (
-            UnicodeDecodeError, HTTPError, MarkupResemblesLocatorWarning, RemoteDisconnected,
+            UnicodeDecodeError, HTTPError, RemoteDisconnected,
             RemoteDisconnected) as err:
         return err
 
