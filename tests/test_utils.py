@@ -1,5 +1,6 @@
 import os
 from collections import deque
+from subprocess import getoutput
 
 import pytest
 from bs4 import BeautifulSoup
@@ -8,22 +9,20 @@ from crawler.Utils.utilities import *
 
 
 class TestUtils:
-
     @pytest.fixture
     def important_value(self):
         url = 'https://turntabl.io'
         response = decode_webpage(url).read().decode("utf-8")
         return BeautifulSoup(response, 'html.parser')
 
-    @pytest.mark.skip
-    def test_create_file(self):
+    def test_create_file_for_storing_results(self):
         msg = 'https://turntabl.io/blog/blog\nhttps://turntabl.io/blog/blogs/2019/04/15/turntabl-connectivity.html'
         base_path = os.path.dirname(__file__)
-        create_file(msg)
-        # print('Path:',os.path.abspath(os.path.join(base_path, '..', 'extracted_file')))
-        # print(os.path.exists(os.path.abspath(os.path.join(base_path, '..', 'extracted_file'))))
+        create_file_for_storing_results(msg)
         required = os.path.exists(os.path.abspath(os.path.join(base_path, '..', 'extracted_file')))
-        assert required == True
+        file = os.path.abspath(os.path.join(base_path, '..', 'extracted_file'))
+        assert True == required
+        assert True == os.path.isfile(file)
 
     def test_extract_all_web_links(self):
         web_links = {'https://www.turnabl.io': {'https://turntabl.io/blog', 'https://turntabl.io/aims',
@@ -32,15 +31,17 @@ class TestUtils:
                         'https://turntabl.io/job'})
         assert required == len(extract_all_web_links(web_links))
 
-    def test_combine_dictionary_keys_and_values(self):
+    def test_combine_dictionary_keys_and_values_1(self):
         test_dictionary = {'a': 'b', 'c': 'd'}
-        test_dictionary_2 = {'a': 'b', 'c': 'b'}
         required = len(combine_dictionary_keys_and_values(test_dictionary, set()))
-        required_2 = len(combine_dictionary_keys_and_values(test_dictionary_2, set()))
         expected = len({'a', 'b', 'c', 'd'})
-        expected_2 = len({'a', 'b', 'c'})
         assert required == expected
-        assert required_2 == expected_2
+
+    def test_combine_dictionary_keys_and_values_2(self):
+        test_dictionary = {'a': 'b', 'c': 'b'}
+        required = len(combine_dictionary_keys_and_values(test_dictionary, set()))
+        expected = len({'a', 'b', 'c'})
+        assert required == expected
 
     def test_decode_webpage_valid_webpage(self):
         url = 'https://turntabl.io'
@@ -73,3 +74,11 @@ class TestUtils:
         expected = len(add_to_visited_links({'/job', '/aims', '/blog'}, deque()))
 
         assert 3 == expected
+
+    def test_validate_url(self):
+        url = 'http://www.turntabl.io'
+        assert True == validate_url(url)
+
+    def test_validate_invalid_url(self):
+        url = 'http://www.t'
+        assert URLError == type(validate_url(url))

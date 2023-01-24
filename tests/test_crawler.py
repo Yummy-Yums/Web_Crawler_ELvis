@@ -41,12 +41,12 @@ class TestCrawler:
         crawler, domain = crawler
         assert len(crawler.get_all_links(domain)) > 3
 
-    @pytest.mark.skip
     def test_gather_links_into_file(self, crawler):
         crawler, domain = crawler
         base_path = os.path.dirname(__file__)
         crawler.gather_links_into_file(domain)
         path_of_file = os.path.abspath(os.path.join(base_path, '..', 'extracted_file'))
         expected = Path(path_of_file)
+
         assert True == expected.exists()
         assert True == expected.is_file()

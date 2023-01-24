@@ -3,7 +3,7 @@ import urllib
 from functools import wraps
 from http.client import RemoteDisconnected
 from multiprocessing.pool import ThreadPool
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 from time import perf_counter
 
@@ -67,6 +67,7 @@ def get_pages(url, option):
     return set(map(lambda x: x['href'], my_result))
 
 
+# TODO: Write test
 def timing(f):
     """A decorator function that times the execution of the input-argument, which is also a function"""
 
@@ -87,6 +88,6 @@ def validate_url(url: str):
         req = urllib.request.urlopen(url).getcode()
         return req == 200
     except HTTPError as e:
-        raise f"Error: {e.code}"
-
-
+        return f"Error: {e.code}"
+    except (ValueError, URLError) as e:
+        return e

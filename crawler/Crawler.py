@@ -26,21 +26,19 @@ class Crawler:
         print('Gathering all links...')
         response = decode_webpage(input_url).read().decode("utf-8")
         soup = BeautifulSoup(response, 'html.parser')
+        # print('Pages:',soup)
 
-        thread1 = ThreadPool(1).apply_async(get_pages, (soup.find_all('a', href=True), 'related',))
-        thread2 = ThreadPool(1).apply_async(get_pages, (soup.find_all('a', href=True), 'non_related',))
-        related_links = thread1.get()
-        non_related_links = thread2.get()
+        thread_pool_1 = ThreadPool(3).apply_async(get_pages, (soup.find_all('a', href=True), 'related',))
+        thread_pool_2 = ThreadPool(1).apply_async(get_pages, (soup.find_all('a', href=True), 'non_related',))
+        related_links = thread_pool_1.get()
+        non_related_links = thread_pool_2.get()
 
-        with ThreadPoolExecutor(2) as executor:
+        with ThreadPoolExecutor(max_workers=1) as executor:
             executor.submit(self.add_non_related_links_to_weblinks, non_related_links)
 
-        with ThreadPoolExecutor(1) as executor:
-            executor.submit(get_pages, (soup.find_all('a', href=True), 'related',))
-
         # For debugging purposes
-        logging.log(msg=f'Active threads:{threading.activeCount()}', level=logging.WARN)
-        logging.log(msg=f'Number of web_links:{len(self.weblinks) + 1}', level=logging.WARN)
+        # logging.log(msg=f'Active threads:{threading.activeCount()}', level=logging.WARN)
+        # logging.log(msg=f'Number of web_links:{len(self.weblinks) + 1}', level=logging.WARN)
 
         all_related_pages = map(lambda link: input_url + link if re.match('/+', link) else link, related_links)
         return set(filter(lambda x: x[:-1] != input_url, all_related_pages))
