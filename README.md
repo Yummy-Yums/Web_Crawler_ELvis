@@ -23,4 +23,4 @@ web page to retrieved url’s embedded within.
 # How to run the app
   * Kindly install necessary packages using: _pip install -r requirements_
   * The app is executed via commandline: _python app.py -u url-name_
-  * For more information, you can use the command: _python -h_
+    * For more information, you can use the command: _python -h_
