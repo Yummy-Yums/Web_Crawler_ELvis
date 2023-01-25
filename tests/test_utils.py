@@ -15,7 +15,6 @@ class TestUtils:
         response = decode_webpage(url).read().decode("utf-8")
         return BeautifulSoup(response, 'html.parser')
 
-    @pytest.mark.skip
     def test_create_file_for_storing_results(self):
         msg = 'https://turntabl.io/blog/blog\nhttps://turntabl.io/blog/blogs/2019/04/15/turntabl-connectivity.html'
         base_path = os.path.dirname(__file__)

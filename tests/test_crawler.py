@@ -41,7 +41,6 @@ class TestCrawler:
         crawler, domain = crawler
         assert len(crawler.get_all_links(domain)) > 3
 
-    @pytest.mark.skip
     def test_gather_links_into_file(self, crawler):
         crawler, domain = crawler
         base_path = os.path.dirname(__file__)
