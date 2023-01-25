@@ -77,7 +77,7 @@ class TestUtils:
         assert 3 == expected
 
     def test_validate_url(self):
-        url = 'http://www.turntabl.io'
+        url = 'https://www.turntabl.io'
         assert True == validate_url(url)
 
     def test_validate_invalid_url(self):

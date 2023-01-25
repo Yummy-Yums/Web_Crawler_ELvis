@@ -26,7 +26,6 @@ class Crawler:
         print('Gathering all links...')
         response = decode_webpage(input_url).read().decode("utf-8")
         soup = BeautifulSoup(response, 'html.parser')
-        # print('Pages:',soup)
 
         thread_pool_1 = ThreadPool(3).apply_async(get_pages, (soup.find_all('a', href=True), 'related',))
         thread_pool_2 = ThreadPool(1).apply_async(get_pages, (soup.find_all('a', href=True), 'non_related',))
@@ -45,8 +44,7 @@ class Crawler:
 
     def get_all_links(self, url) -> None:
         """ Uses depth-first-search(DFS) algorithm to gather the links  """
-        visited_links = deque()
-        visited_links.append(url)
+        visited_links = [url]
         while visited_links:
             current_link = visited_links.pop()
             if current_link not in self.weblinks and self.gather_all_weblinks(current_link):

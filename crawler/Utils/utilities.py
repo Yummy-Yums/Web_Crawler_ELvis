@@ -47,11 +47,11 @@ def decode_webpage(url: str):
         return err
 
 
-def add_to_visited_links(children, queue):
+def add_to_visited_links(children, stack):
     """ A function to add a value to an existing queue """
     for child in children:
-        queue.append(child)
-    return queue
+        stack.append(child)
+    return stack
 
 
 def get_pages(url, option):
