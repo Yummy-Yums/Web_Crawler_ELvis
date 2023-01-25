@@ -12,8 +12,6 @@ def create_file_for_storing_results(data):
     """ Generate a file with all the links gathered """
     base_path = os.path.dirname(__file__)
     path = os.path.abspath(os.path.join(base_path, '..\..', 'extracted_file'))
-    if os.path.exists(path):
-        os.remove(path)
     with open(path, 'w') as fb:
         for link in data:
             fb.write(link + '\n')
