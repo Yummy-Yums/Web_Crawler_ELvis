@@ -3,6 +3,7 @@ import urllib
 from functools import wraps
 from http.client import RemoteDisconnected
 from multiprocessing.pool import ThreadPool
+import platform
 from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 from time import perf_counter
@@ -10,8 +11,9 @@ from time import perf_counter
 
 def create_file_for_storing_results(data):
     """ Generate a file with all the links gathered """
+    os_platform = {'Windows':"\\","Linux":"/"}
     base_path = os.path.dirname(__file__)
-    path = os.path.abspath(os.path.join(base_path, '..\..', 'extracted_file'))
+    path = os.path.abspath(os.path.join(base_path, f'..{os_platform[platform.system()]}..', 'extracted_file'))
     with open(path, 'w') as fb:
         for link in data:
             fb.write(link + '\n')

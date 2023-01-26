@@ -23,7 +23,6 @@ class Crawler:
 
     def gather_all_weblinks(self, input_url):
         """ Gathering all the weblinks """
-        print('Gathering all links...')
         response = decode_webpage(input_url).read().decode("utf-8")
         soup = BeautifulSoup(response, 'html.parser')
 
@@ -43,6 +42,7 @@ class Crawler:
         return set(filter(lambda x: x[:-1] != input_url, all_related_pages))
 
     def get_all_links(self, url) -> None:
+        print('Gathering all links...')
         """ Uses depth-first-search(DFS) algorithm to gather the links  """
         visited_links = [url]
         while visited_links:
