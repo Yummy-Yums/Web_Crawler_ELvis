@@ -9,6 +9,7 @@ from crawler import *
 
 
 class Crawler:
+    __slots__ = ['weblinks']
     def __init__(self):
         self.weblinks = dict()
 
