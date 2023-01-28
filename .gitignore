@@ -1,1 +1,4 @@
 venv/
+extracted_file
+__pycache__
+tests/__pycache__
