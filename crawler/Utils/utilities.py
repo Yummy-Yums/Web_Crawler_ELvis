@@ -1,4 +1,5 @@
 import os.path
+import re
 import urllib
 from functools import wraps
 from http.client import RemoteDisconnected
@@ -11,13 +12,15 @@ from time import perf_counter
 
 def create_file_for_storing_results(data):
     """ Generate a file with all the links gathered """
-    os_platform = {'Windows':"\\","Linux":"/"}
+    os_platform = {'Windows': "\\", "Linux": "/", "Darwin": "/"}
     base_path = os.path.dirname(__file__)
     path = os.path.abspath(os.path.join(base_path, f'..{os_platform[platform.system()]}..', 'extracted_file'))
+    i = 0
     with open(path, 'w') as fb:
         for link in data:
             fb.write(link + '\n')
-        print('\n******** Done with extraction and file created! ******** ')
+            i += 1
+        print(f'\n******** Done with extraction, {i} links were gathered and file created! ******** ')
 
 
 def combine_dictionary_keys_and_values(dictionary_links, all_links):
@@ -67,7 +70,6 @@ def get_pages(url, option):
     return set(map(lambda x: x['href'], my_result))
 
 
-# TODO: Write test
 def timing(f):
     """A decorator function that times the execution of the input-argument, which is also a function"""
 
@@ -76,7 +78,8 @@ def timing(f):
         start_time = perf_counter()
         result = f(*args, **kwargs)
         duration = perf_counter() - start_time
-        print(f"Finished in {duration:2.2f} seconds")
+        mins, secs = divmod(duration, 60)
+        print(f"Finished in {mins:2.0f} minutes {secs:2.2f} seconds")
         return result
 
     return inner_function
